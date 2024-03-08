@@ -19,6 +19,7 @@ kotlin-serialization-json = "1.6.3"
 ktor = "2.3.9"
 kamel = "0.9.3"
 mvvm = "0.16.1"
+kermit = "2.0.3"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -47,6 +48,7 @@ kotlin_serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-j
 kamel_image = { module = "media.kamel:kamel-image", version.ref = "kamel" }
 mvvm-core = { module = "dev.icerock.moko:mvvm-core", version.ref = "mvvm" }
 moko-mvvm-compose = { module = "dev.icerock.moko:mvvm-compose", version.ref = "mvvm" }
+kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
