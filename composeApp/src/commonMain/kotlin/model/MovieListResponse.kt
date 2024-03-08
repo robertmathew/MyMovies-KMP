@@ -9,14 +9,14 @@ data class MovieListResponse(
     @SerialName("page")
     val page: Int,
     @SerialName("results")
-    val results: List<Result>,
+    val results: List<MovieDetails>,
     @SerialName("total_pages")
     val totalPages: Int,
     @SerialName("total_results")
     val totalResults: Int
 ) {
     @Serializable
-    data class Result(
+    data class MovieDetails(
         @SerialName("adult")
         val adult: Boolean,
         @SerialName("backdrop_path")
