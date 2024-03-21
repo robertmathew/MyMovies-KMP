@@ -1,6 +1,7 @@
-package ui
+package ui.list
 
-import dev.icerock.moko.mvvm.viewmodel.ViewModel
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.screenModelScope
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,17 +12,17 @@ import model.MovieListResponse
 import network.NetworkComponent
 import utils.Constant.BASE_URL
 
-class MovieListViewModel : ViewModel() {
+class MovieListViewModel : ScreenModel {
 
     private val _uiState = MutableStateFlow(MovieListUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
-        updateImages()
+        getMovieList()
     }
 
-    fun updateImages() {
-        viewModelScope.launch {
+    fun getMovieList() {
+        screenModelScope.launch {
             val movies = getMovies()
             _uiState.update {
                 it.copy(movieList = movies)

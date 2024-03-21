@@ -71,10 +71,11 @@ kotlin {
             implementation(libs.ktor.content.negotiation)
             implementation(libs.ktor.json)
             implementation(libs.kotlin.serialization)
-            api(libs.mvvm.core) // only ViewModel, EventsDispatcher, Dispatchers.UI
-            api(libs.moko.mvvm.compose) // api mvvm-core, getViewModel for Compose Multiplatfrom
             implementation(libs.kamel.image)
             implementation(libs.kermit)
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.screenModel)
+            implementation(libs.voyager.transitions)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

@@ -1,4 +1,4 @@
-package ui
+package ui.list
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
@@ -31,21 +31,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.model.rememberScreenModel
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import co.touchlab.kermit.Logger
-import dev.icerock.moko.mvvm.compose.getViewModel
-import dev.icerock.moko.mvvm.compose.viewModelFactory
 import model.MovieListResponse
 import mymovies.composeapp.generated.resources.Res
 import mymovies.composeapp.generated.resources.app_name
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
+import ui.detail.MovieDetailScreen
 
-@Composable
-fun MovieListScreen() {
-    val viewModel = getViewModel(Unit, viewModelFactory { MovieListViewModel() })
-    Scaffold(topBar = { MovieTopAppBar() }) {
-        MovieListUi(viewModel = viewModel, modifier = Modifier.padding(it))
+class MovieListScreen: Screen {
+    @Composable
+    override fun Content() {
+        val screenModel = rememberScreenModel { MovieListViewModel() }
+        val navigator = LocalNavigator.currentOrThrow
+        Scaffold(topBar = { MovieTopAppBar() }) {
+            MovieListUi(viewModel = screenModel, navigator = navigator, modifier = Modifier.padding(it))
+        }
     }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
@@ -117,7 +125,7 @@ fun GridItem(
 }
 
 @Composable
-fun MovieListUi(viewModel: MovieListViewModel, modifier: Modifier = Modifier) {
+fun MovieListUi(viewModel: MovieListViewModel, navigator: Navigator, modifier: Modifier = Modifier) {
     val uiState by viewModel.uiState.collectAsState()
 
     AnimatedVisibility(uiState.movieList != null) {
@@ -131,6 +139,7 @@ fun MovieListUi(viewModel: MovieListViewModel, modifier: Modifier = Modifier) {
                         ) { index ->
                             val movie = it.results.get(index)
                             GridItem(movie = movie, onClick = {
+                                navigator.push(MovieDetailScreen(movieId = movie.id, movieName = movie.title))
                                 Logger.i { movie.title }
                             })
                         }
