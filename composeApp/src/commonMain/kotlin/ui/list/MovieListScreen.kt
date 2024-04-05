@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.model.rememberNavigatorScreenModel
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -47,13 +48,12 @@ import ui.detail.MovieDetailScreen
 class MovieListScreen: Screen {
     @Composable
     override fun Content() {
-        val screenModel = rememberScreenModel { MovieListViewModel() }
         val navigator = LocalNavigator.currentOrThrow
+        val screenModel = navigator.rememberNavigatorScreenModel { MovieListViewModel() }
         Scaffold(topBar = { MovieTopAppBar() }) {
             MovieListUi(viewModel = screenModel, navigator = navigator, modifier = Modifier.padding(it))
         }
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)

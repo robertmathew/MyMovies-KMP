@@ -3,10 +3,8 @@ package ui.detail
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,13 +20,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
+import cafe.adriel.voyager.core.model.rememberNavigatorScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
+import mymovies.composeapp.generated.resources.Res
+import mymovies.composeapp.generated.resources.description
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import utils.Constant
 
 
@@ -36,8 +39,8 @@ data class MovieDetailScreen(val movieId: Int, val movieName: String) : Screen {
 
     @Composable
     override fun Content() {
-        val screenModel = rememberScreenModel { MovieDetailViewModel() }
         val navigator = LocalNavigator.currentOrThrow
+        val screenModel = navigator.rememberNavigatorScreenModel { MovieDetailViewModel() }
 
         screenModel.getMovieDetail(movieId)
 
@@ -78,6 +81,7 @@ private fun ShowDetailsAppBar(
     )
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun MovieDetail(
     viewModel: MovieDetailViewModel,
@@ -93,6 +97,18 @@ private fun MovieDetail(
                 modifier = Modifier.height(200.dp),
                 contentScale = ContentScale.Crop,
             )
+            Text(
+                text = stringResource(Res.string.description),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)
+            )
+            uiState.movieDetail?.overview?.let {
+                Text(
+                    it,
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
+                )
+            }
         }
     }
 }
