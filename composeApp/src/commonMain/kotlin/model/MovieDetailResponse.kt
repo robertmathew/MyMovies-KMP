@@ -22,6 +22,8 @@ data class MovieDetailResponse(
     val id: Int,
     @SerialName("imdb_id")
     val imdbId: String,
+    @SerialName("origin_country")
+    val originCountry: List<String>,
     @SerialName("original_language")
     val originalLanguage: String,
     @SerialName("original_title")
@@ -58,6 +60,18 @@ data class MovieDetailResponse(
     val voteCount: Int
 ) {
     @Serializable
+    data class BelongsToCollection(
+        @SerialName("backdrop_path")
+        val backdropPath: String,
+        @SerialName("id")
+        val id: Int,
+        @SerialName("name")
+        val name: String,
+        @SerialName("poster_path")
+        val posterPath: String
+    )
+
+    @Serializable
     data class Genre(
         @SerialName("id")
         val id: Int,
@@ -93,17 +107,5 @@ data class MovieDetailResponse(
         val iso6391: String,
         @SerialName("name")
         val name: String
-    )
-
-    @Serializable
-    data class BelongsToCollection(
-        @SerialName("id")
-        val id: Int,
-        @SerialName("name")
-        val name: String,
-        @SerialName("poster_path")
-        val posterPath: String,
-        @SerialName("backdrop_path")
-        val backdropPath: String
     )
 }
